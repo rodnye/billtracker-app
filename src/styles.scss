@@ -1,0 +1,11 @@
+@use 'tailwindcss';
+@use '@angular/material' as mat;
+
+html,
+body {
+  height: 100%;
+}
+
+.screen {
+  @apply flex flex-col w-screen h-screen overflow-hidden;
+}

@@ -1,1 +1,69 @@
-<p>home works!</p>
+<style></style>
+
+<div class="screen">
+  <mat-toolbar color="primary">
+    <!--button mat-icon-button>
+      <mat-icon>menu</mat-icon>
+    </button-->
+    <span class="text-2xl my-3">Bill Tracker</span>
+  </mat-toolbar>
+
+  <main class="w-full h-full flex-grow relative overflow-auto">
+    <mat-selection-list auto-animate>
+      @for (summary of summaries; track summary.id) {
+        <!-- summary header-->
+        <div
+          class="rounded-3 flex flex-col items-start m-1 px-4 py-3 bg-gray-100"
+        >
+          <div class="flex items-center my-1">
+            <mat-icon>today</mat-icon>
+            <p>{{ summary.date | friendlyTime }}</p>
+          </div>
+          <div class="flex">
+            <mat-icon style="color: green">attach_money</mat-icon>
+            <p>Ingresos: {{ summary.inflow }}</p>
+          </div>
+          <div class="flex">
+            <mat-icon style="color: red">money_off</mat-icon>
+            <p>Egresos: {{ summary.outflow }}</p>
+          </div>
+        </div>
+
+        <!-- summary transactions history -->
+        @for (transaction of summary.transactions; track transaction.id) {
+          <mat-list-item>
+            <div class="flex m-6">
+              <!-- item icon -->
+              <div class="flex items-center justify-center">
+                <div
+                  class="rounded-full bg-blue-900 text-white p-2 flex items-center justify-center"
+                >
+                  <mat-icon>{{ transaction | transactionIcon }}</mat-icon>
+                </div>
+              </div>
+
+              <!-- item body -->
+              <div class="flex flex-col flex-grow ps-6">
+                <h3>{{ transaction | transactionType }}</h3>
+                <p class="text-xs text-gray-400">
+                  <span>{{ transaction.info }}</span>
+                </p>
+              </div>
+
+              <!-- item right element -->
+              <div class="text-sm flex items-center">
+                <h3>{{ transaction | transactionAmount }}</h3>
+              </div>
+            </div>
+          </mat-list-item>
+        }
+      }
+    </mat-selection-list>
+  </main>
+
+  <div class="fixed bottom-3 right-3 z-10">
+    <button mat-fab (click)="openAddTransaction()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+</div>

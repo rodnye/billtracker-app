@@ -1,0 +1,58 @@
+<div class="flex flex-col m-6">
+  <h1 class="text-2xl">Añadir transacción</h1>
+  <form (ngSubmit)="onSubmit()" [formGroup]="form" class="m-6">
+    <!-- -->
+    <mat-form-field class="w-full">
+      <mat-label>Cantidad</mat-label>
+      <input matInput type="number" formControlName="amount" />
+
+      @if (form.get('amount')?.hasError('required')) {
+        <mat-error> La cantidad es obligatoria </mat-error>
+      } @else if (form.get('amount')?.hasError('min')) {
+        <mat-error> La cantidad debe ser positiva </mat-error>
+      }
+    </mat-form-field>
+
+    <!-- -->
+    <div class="mb-4">
+      <mat-label>Flujo:</mat-label>
+      <mat-radio-group formControlName="flow" class="radio-group">
+        <mat-radio-button value="in">Ingreso</mat-radio-button>
+        <mat-radio-button value="out">Egreso</mat-radio-button>
+      </mat-radio-group>
+
+      @if (form.get('flow')?.invalid && form.get('flow')?.touched) {
+        <mat-error> Debes seleccionar un tipo de flujo </mat-error>
+      }
+    </div>
+
+    <!-- -->
+    <mat-form-field class="w-full">
+      <mat-label>Tipo</mat-label>
+      <mat-select formControlName="typeId">
+        @for (
+          type of trService.getTypes(form.get('flow')?.value!);
+          track type.id
+        ) {
+          <mat-option [value]="type.id">{{ type.name }}</mat-option>
+        }
+      </mat-select>
+
+      @if (form.get('typeId')?.hasError('required')) {
+        <mat-error> El tipo es obligatorio </mat-error>
+      }
+    </mat-form-field>
+
+    <!-- Botón Submit -->
+    <div class="mt-4">
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="form.invalid"
+      >
+        Guardar Transacción
+      </button>
+    </div>
+  </form>
+</div>
